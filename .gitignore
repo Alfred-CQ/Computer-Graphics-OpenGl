@@ -1,0 +1,3 @@
+*.txt
+include/path.h
+glad.c
