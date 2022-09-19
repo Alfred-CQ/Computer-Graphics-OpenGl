@@ -27,8 +27,6 @@
 
 				}
 
-		
-
 			private:
 				unsigned int SCR_WIDTH, SCR_HEIGHT;
 
@@ -59,12 +57,6 @@
 						exit(-1);
 					}
 				}
-
-
-				
-				
 		};
-
-		
 
 #endif
