@@ -8,6 +8,15 @@
 		
 		#include "vectors.h"
 
+		/* Usings */
+		using std::vector;
+
+		/* Defines */
+		#define F_PI 3.14159265358979323846
+
+		/* Globals */
+		int primitive = GL_POINTS;
+
 		/* Typedefs */
 		typedef unsigned int uint;
 
@@ -19,6 +28,9 @@
 
 		void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
+			if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+				primitive = GL_LINE_LOOP;
+
 			if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 				glfwSetWindowShouldClose(window, true);
 		}
