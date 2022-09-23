@@ -33,5 +33,4 @@
 
 # Others
 *.txt
-include/path.h
 glad.c
