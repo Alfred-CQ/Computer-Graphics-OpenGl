@@ -1,81 +1,86 @@
 #ifndef _STAR_H
 	#define _STAR_H
     
-    #include "picture.h"	
+        #include "picture.h"	
 
-	class Star: public Picture
-	{
-		public:
-            
-            Star(size_t tips, float in_radius, float out_radius);
+	    class Star: public Picture
+	    {
+	    	public:
+                
+                Star(size_t tips, float in_radius, float out_radius);
 
-            void get_Vertexes();
-            void get_Idx_Triangles();
+                void get_Vertexes();
+                void get_Idx_Lines();
+                void get_Idx_Triangles();
 
-        private:
+            private:
 
-            size_t s_tips;
-            float  s_inRadius, s_outRadius, s_location_x, s_location_y, s_rotation;
-	};
-    
-    Star::Star(size_t tips, float in_radius, float out_radius)
-    {
-        s_tips = tips;
-        s_inRadius = in_radius;
-        s_outRadius = out_radius;
-        s_rotation = F_PI / s_tips;
+                size_t s_tips;
+                float  s_inRadius, s_outRadius, s_location_x, s_location_y, s_rotation;
+	    };
         
-        get_Vertexes();
-        get_Idx_Triangles();
-    }
-    
-
-	void Star::get_Vertexes()
-	{
-        float useRadius, begin = 0.0f;
-
-        for (int i = 0; i < s_tips; ++i)
+        Star::Star(size_t tips, float in_radius, float out_radius)
         {
-            for (int j = 0; j < 2; ++j)
+            s_tips = tips;
+            s_inRadius = in_radius;
+            s_outRadius = out_radius;
+            s_rotation = F_PI / s_tips;
+            
+            get_Vertexes();
+            get_Idx_Triangles();
+        }
+        
+	    void Star::get_Vertexes()
+	    {
+            float useRadius, begin = 0.0f;
+
+            for (int i = 0; i < s_tips; ++i)
             {
-                useRadius = s_inRadius;
+                for (int j = 0; j < 2; ++j)
+                {
+                    useRadius = s_inRadius;
 
-                if (!(j % 2))
-                    useRadius = s_outRadius;
+                    if (!(j % 2))
+                        useRadius = s_outRadius;
 
-                vertexes.push_back(sin(begin) * useRadius);
-                vertexes.push_back(cos(begin) * useRadius);
-                vertexes.push_back(0.0f);
+                    vertexes.push_back(sin(begin) * useRadius);
+                    vertexes.push_back(cos(begin) * useRadius);
+                    vertexes.push_back(0.0f);
 
-                begin += s_rotation;
+                    begin += s_rotation;
+                }
             }
-        }
 
-        vertexes.push_back(0.0f);
-        vertexes.push_back(0.0f);
-        vertexes.push_back(0.0f);
+            vertexes.push_back(0.0f);
+            vertexes.push_back(0.0f);
+            vertexes.push_back(0.0f);
 
-        size_vertexes = vertexes.size();
-	}
-    
-    void Star::get_Idx_Triangles()
-    {
-        size_t vertex_idx = (s_tips * 2) - 1, i, j;
-        for (i = 1; i <= s_tips * 3; ++i)
+            size_vertexes = vertexes.size();
+	    }
+        
+        void Star::get_Idx_Lines()
         {
-            idx_triangles.push_back(vertex_idx);
-            if ((i % 3))
-                vertex_idx = (vertex_idx + 1) % 10;
+            std::cout << "No Lines Idx\n";
         }
-
-        for (i = 1, j = 0; j < s_tips; ++j, i += 2)
+        
+        void Star::get_Idx_Triangles()
         {
-            idx_triangles.push_back(i);
-            idx_triangles.push_back((i + 2) % (s_tips * 2));
-            idx_triangles.push_back(s_tips * 2);
-        }
+            size_t vertex_idx = (s_tips * 2) - 1, i, j;
+            for (i = 1; i <= s_tips * 3; ++i)
+            {
+                idx_triangles.push_back(vertex_idx);
+                if ((i % 3))
+                    vertex_idx = (vertex_idx + 1) % 10;
+            }
 
-        size_idx_triangles = idx_triangles.size();
-    }
+            for (i = 1, j = 0; j < s_tips; ++j, i += 2)
+            {
+                idx_triangles.push_back(i);
+                idx_triangles.push_back((i + 2) % (s_tips * 2));
+                idx_triangles.push_back(s_tips * 2);
+            }
+
+            size_idx_triangles = idx_triangles.size();
+        }
 
 #endif

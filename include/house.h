@@ -1,48 +1,61 @@
-#ifndef _HOUSE_H
-    #define _HOUSE_H
+#ifndef _HOUSE_H_
+    #define _HOUSE_H_
     
-    #include <glad/glad.h>
-    
-    #include <iostream>
-    #include <string>
-    #include <vector>
-    
-    using std::vector;
-    
-    class House
-    {
-        public:
+        #include "picture.h"	
 
-            const size_t sizeVertexs = 21, sizeTriangles = 15;
+        class House : public Picture
+        {
+            public:
 
-            float verticesHouse[21] = { 
-                -0.4f, -0.6f, 0.0f, 
+                House();
+
+                void get_Vertexes();
+                void get_Idx_Lines();
+                void get_Idx_Triangles();
+
+            private:
+
+
+        };
+    
+        House::House()
+        {
+            get_Vertexes();
+            get_Idx_Triangles();
+        }
+
+        void House::get_Vertexes()
+        {
+            vertexes =
+            {
+                -0.4f, -0.6f, 0.0f,
                  0.4f, -0.6f, 0.0f,
                  0.4f,  0.0f, 0.0f,
                  0.9f,  0.0f, 0.0f,
                  0.0f,  0.6f, 0.0f,
                 -0.9f,  0.0f, 0.0f,
-                -0.4f,  0.0f, 0.0f,                 
+                -0.4f,  0.0f, 0.0f
             };
+            
+            size_vertexes = vertexes.size();
+        }
+        
+        void House::get_Idx_Lines()
+        {
+            std::cout << "No Lines Idx\n";
+        }
 
-            unsigned int idxHouseTriangles[15] = {
-                0, 1, 2,
-                2, 3, 4,
-                2, 4, 6,
-                4, 5, 6,
-                6, 0, 2 
-            };
-
-            House()
+        void House::get_Idx_Triangles()
+        {
+            idx_triangles =
             {
-                std::cout << " Hello";
-            }
+                 0, 1, 2,
+                 2, 3, 4,
+                 2, 4, 6,
+                 4, 5, 6,
+                 6, 0, 2
+            };
             
-    
-        private:
-    
-            
-    
-    };
-    
+            size_idx_triangles = idx_triangles.size();
+        }
 #endif

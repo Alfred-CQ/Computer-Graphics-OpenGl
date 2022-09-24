@@ -1,67 +1,74 @@
 #ifndef _PIZZA_H_
 	#define _PIZZA_H_
 	
-		#include <iostream>
-		#include <string>
-		#include <vector>
-		
-		#define F_PI 3.14159265358979323846
+		#include "picture.h"
 
-		using std::vector;
-
-		class Pizza {
+		class Pizza: public Picture 
+		{
 			public:
-				vector<float> vertexs;
-				vector<int> idxPizzaLine;
-				vector<int> idxPizzaTriangles;
-
-				size_t sizeVertexs, sizeIdxLine, sizeIdxTriangles;
-
-				Pizza(size_t tips, float useRadius)
-				{
-					s_tips = tips;
-					s_useRadius = useRadius;
-					t = 0.0f;
-					t_rot = (2 * F_PI) / s_tips;
-
-					getPizzaVertexs();
-					getPizzaLine();
-				}
+				
+				Pizza(size_t tips, float radius);
+				
+				void get_Vertexes();
+				void get_Idx_Lines();
+				void get_Idx_Triangles();
 
 			private:
-                size_t s_tips;
-                float  s_useRadius, t, t_rot;
 
-                void getPizzaVertexs()
-                {
-					for (int i = 0; i < s_tips; ++i)
-					{
-						vertexs.push_back(sin(t) * s_useRadius);
-						vertexs.push_back(cos(t) * s_useRadius);
-						vertexs.push_back(0.0f);
-						t += t_rot;
-					}
-
-					vertexs.push_back(0.0f);
-					vertexs.push_back(0.0f);
-					vertexs.push_back(0.0f);
-
-                    sizeVertexs = vertexs.size();
-                }
-
-                void getPizzaLine()
-                {
-					for (int i = 0; i < sizeVertexs - 1; ++i)
-						idxPizzaLine.push_back(i);
-					/*int j = 0;
-					for (int i = 0 ; i < (sizeVertexs - 1) / 3; ++i, j+=3)
-					{
-						idxPizzaLine.push_back(j);
-						idxPizzaLine.push_back(36);
-					}*/
-
-					sizeIdxLine = idxPizzaLine.size();
-                }
+				size_t p_tips;
+				float  p_radius, p_location_x, p_location_y, p_rotation;
 		};
+		
+		Pizza::Pizza(size_t tips, float radius)
+		{
+			p_tips = tips;
+			p_radius = radius;
+			p_rotation = (2.f * F_PI) / p_tips;
+
+			get_Vertexes();
+			get_Idx_Lines();
+			get_Idx_Triangles();
+		}
+		
+		void Pizza::get_Vertexes()
+		{
+			float begin = 0.0f;
+
+			for (int i = 0; i < p_tips; ++i)
+			{
+				vertexes.push_back( sin(begin) * p_radius);
+				vertexes.push_back( cos(begin) * p_radius);
+				vertexes.push_back( 0.0f );
+
+				begin += p_rotation;
+			}
+
+			vertexes.push_back(0.0f);
+			vertexes.push_back(0.0f);
+			vertexes.push_back(0.0f);
+
+			size_vertexes = vertexes.size();
+		}
+
+		void Pizza::get_Idx_Lines()
+		{
+			for (int i = 0; i < size_vertexes - 1; ++i)
+				idx_lines.push_back(i);
+			/*int j = 0;
+			for (int i = 0; i < (size_vertexes - 1) / 3; ++i, j += 3)
+			{
+				idx_lines.push_back(j);
+				idx_lines.push_back(36);
+			}
+
+			size_idx_lines = idx_lines.size();**/
+		}
+
+		void Pizza::get_Idx_Triangles()
+		{
+			idx_triangles.push_back(0);
+			idx_triangles.push_back(31);
+			idx_triangles.push_back(1);
+		}
 
 #endif
