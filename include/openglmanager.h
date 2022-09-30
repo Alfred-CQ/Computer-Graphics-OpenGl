@@ -11,12 +11,17 @@
 				GLFWwindow* window;
 				
 				OpenGLManager(uint windowWidth, uint windowHeight, char* windowTitle);
+				~OpenGLManager();
 
 				void bind_Buffer_Data(uint* VAO, uint* VBO, uint* EBO, Picture* picture);
 				void bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);
 
-				void update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);
+				void update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);	
 
+				// Utils
+				bool close();
+				void listen_buffers_and_Events();
+				
 			private:
 
 				uint windowWidth, windowHeight;
@@ -36,6 +41,11 @@
 
 			set_GLFW_Context();
 			set_Window();
+		}
+
+		OpenGLManager::~OpenGLManager()
+		{
+			glfwTerminate();
 		}
 
 		void OpenGLManager::set_GLFW_Context()
@@ -67,40 +77,6 @@
 				exit(-1);
 			}
 		}
-		
-		void OpenGLManager::bind_Buffer_Data(uint* VAO, uint* VBO, uint* EBO, Picture* picture)
-		{
-			glGenVertexArrays(1, VAO);
-			glGenBuffers(1, VBO);
-			glGenBuffers(1, EBO);
-
-			glBindVertexArray(*VAO);
-
-			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-			glBufferData(GL_ARRAY_BUFFER, picture->size_vertexes * 3 * sizeof(picture->vertexes), &(picture->vertexes.front()), GL_DYNAMIC_DRAW);
-
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, picture->size_idx_triangles * sizeof(picture->idx_triangles), &(picture->idx_triangles.front()), GL_STATIC_DRAW);
-
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-			glEnableVertexAttribArray(0);
-		}
-
-		void  OpenGLManager::bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
-		{
-			glGenVertexArrays(1, VAO);
-			glGenBuffers(1, VBO);
-
-			glBindVertexArray(*VAO);
-
-			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-			glBufferData(GL_ARRAY_BUFFER, vertexs->size() * 3 * sizeof(vertexs), &(vertexs->front()), GL_STATIC_DRAW);
-
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-			glEnableVertexAttribArray(0);
-		}
 
 		void OpenGLManager::update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
 		{
@@ -108,4 +84,16 @@
 			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
 			glBufferData(GL_ARRAY_BUFFER, vertexs->size() * 3 * sizeof(vertexs), &(vertexs->front()), GL_DYNAMIC_DRAW);
 		}
+
+		bool OpenGLManager::close()
+		{
+			return glfwWindowShouldClose(this->window);
+		}
+
+		void OpenGLManager::listen_buffers_and_Events()
+		{
+			glfwSwapBuffers(this->window);
+			glfwPollEvents();
+		}
+
 #endif

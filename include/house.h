@@ -15,13 +15,14 @@
 
             private:
 
-
         };
     
         House::House()
         {
             get_Vertexes();
             get_Idx_Triangles();
+
+            bind_Buffers();
         }
 
         void House::get_Vertexes()
@@ -34,7 +35,8 @@
               {  0.9f,  0.0f, 0.0f },
               {  0.0f,  0.6f, 0.0f },
               { -0.9f,  0.0f, 0.0f },
-              { -0.4f,  0.0f, 0.0f }
+              { -0.4f,  0.0f, 0.0f },
+              {  0.0f,  0.0f, 0.0f }
             };
             
             size_vertexes = vertexes.size();
@@ -58,4 +60,5 @@
             
             size_idx_triangles = idx_triangles.size();
         }
+
 #endif

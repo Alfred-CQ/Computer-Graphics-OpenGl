@@ -32,6 +32,8 @@
             
             get_Vertexes();
             get_Idx_Triangles();
+            
+            bind_Buffers();
         }
 
 	    void Star::get_Vertexes()

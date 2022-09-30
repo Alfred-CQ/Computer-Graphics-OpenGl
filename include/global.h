@@ -6,19 +6,29 @@
 		#include <iostream>
 		#include <vector>
 		
-		#include "vectors.h"
+		#include "math_entities.h"
 
 		/* Usings */
 		using std::vector;
 
 		/* Defines */
-		#define F_PI 3.14159265358979323846
+		#define F_PI 3.14159265358979323846f
+		
+		#define DOWN  Vector<3>(0, -0.0001, 0)
+		#define UP    Vector<3>(0, 0.0001, 0)
+		#define LEFT  Vector<3>(-0.0001, 0, 0)
+		#define RIGHT Vector<3>(0.0001, 0, 0)
 
-		/* Globals */
-		int primitive = GL_POINTS;
+		// config
+		#define NUMBER_FIGURES 3
 
 		/* Typedefs */
 		typedef unsigned int uint;
+
+		/* Globals */
+		int primitive = GL_POINTS;
+		uint current_picture = 0;
+		float star_speed = 1.0f, house_speed = 1.0f, pizza_speed = 1.0f;
 
 		/* Callbacks */
 		void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -29,10 +39,25 @@
 		void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 		{
 			if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+				current_picture = (current_picture + 1) % NUMBER_FIGURES;
+			
+			if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+				primitive = GL_POINTS;
+			
+			if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
 				primitive = GL_LINE_LOOP;
+			
+			if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+				primitive = GL_TRIANGLES;
+
 
 			if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 				glfwSetWindowShouldClose(window, true);
+		}
+		
+		float get_distance(Point<3> A, Point<3> B)
+		{
+			return sqrt((B.p_x - A.p_x)*(B.p_x - A.p_x) + (B.p_y - A.p_y)* (B.p_y - A.p_y));
 		}
 
 #endif

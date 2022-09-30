@@ -7,11 +7,15 @@
 		{
 			public:
 				
+				uint second_EBO;
+
 				Pizza(size_t tips, float radius);
 
 				void get_Vertexes();
 				void get_Idx_Lines();
 				void get_Idx_Triangles();
+				
+				void draw_divisions();
 
 			private:
 
@@ -29,6 +33,8 @@
 			get_Vertexes();
 			get_Idx_Lines();
 			get_Idx_Triangles();
+
+			bind_Buffers();
 		}
 
 		void Pizza::get_Vertexes()
@@ -38,7 +44,6 @@
 			for (int i = 0; i < p_tips; ++i)
 			{
 				vertexes.push_back( {sin(begin) * p_radius, cos(begin) * p_radius, 0.0f} );
-
 				begin += p_rotation;
 			}
 
@@ -49,23 +54,34 @@
 
 		void Pizza::get_Idx_Lines()
 		{
-			for (int i = 0; i < size_vertexes - 1; ++i)
-				idx_lines.push_back(i);
-			/*int j = 0;
-			for (int i = 0; i < (size_vertexes - 1) / 3; ++i, j += 3)
+			for (int i = 0, j = 0; i < (size_vertexes - 1) / 3; ++i, j += 3)
 			{
 				idx_lines.push_back(j);
 				idx_lines.push_back(36);
 			}
+			size_idx_lines = idx_lines.size();
 
-			size_idx_lines = idx_lines.size();**/
+			glGenBuffers(1, &this->second_EBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, second_EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, size_idx_lines * sizeof(this->idx_lines), &(this->idx_lines.front()), GL_STATIC_DRAW);
 		}
 
 		void Pizza::get_Idx_Triangles()
 		{
-			idx_triangles.push_back(0);
-			idx_triangles.push_back(31);
-			idx_triangles.push_back(1);
+			for (int i = 0; i < size_vertexes - 1 ; ++i)
+			{
+				idx_triangles.push_back(i);
+				idx_triangles.push_back(36);
+				idx_triangles.push_back((i + 1) % (size_vertexes - 1));
+			}
+
+			size_idx_triangles = idx_triangles.size();
+		}
+
+		void Pizza::draw_divisions()
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->second_EBO);
+			glDrawElements(GL_LINE_LOOP, 24, GL_UNSIGNED_INT, 0);
 		}
 
 #endif
