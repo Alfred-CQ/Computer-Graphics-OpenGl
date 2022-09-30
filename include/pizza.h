@@ -8,7 +8,7 @@
 			public:
 				
 				Pizza(size_t tips, float radius);
-				
+
 				void get_Vertexes();
 				void get_Idx_Lines();
 				void get_Idx_Triangles();
@@ -17,6 +17,7 @@
 
 				size_t p_tips;
 				float  p_radius, p_location_x, p_location_y, p_rotation;
+
 		};
 		
 		Pizza::Pizza(size_t tips, float radius)
@@ -29,23 +30,19 @@
 			get_Idx_Lines();
 			get_Idx_Triangles();
 		}
-		
+
 		void Pizza::get_Vertexes()
 		{
 			float begin = 0.0f;
 
 			for (int i = 0; i < p_tips; ++i)
 			{
-				vertexes.push_back( sin(begin) * p_radius);
-				vertexes.push_back( cos(begin) * p_radius);
-				vertexes.push_back( 0.0f );
+				vertexes.push_back( {sin(begin) * p_radius, cos(begin) * p_radius, 0.0f} );
 
 				begin += p_rotation;
 			}
 
-			vertexes.push_back(0.0f);
-			vertexes.push_back(0.0f);
-			vertexes.push_back(0.0f);
+			vertexes.push_back( {0.0f, 0.0f, 0.0f} );
 
 			size_vertexes = vertexes.size();
 		}

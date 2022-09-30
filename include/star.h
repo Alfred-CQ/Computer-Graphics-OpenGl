@@ -7,29 +7,33 @@
 	    {
 	    	public:
                 
-                Star(size_t tips, float in_radius, float out_radius);
+                Star(size_t tips, float in_radius, float out_radius, float location_x = 0.0f, float location_y = 0.0f);
 
                 void get_Vertexes();
                 void get_Idx_Lines();
                 void get_Idx_Triangles();
+                
 
             private:
 
                 size_t s_tips;
                 float  s_inRadius, s_outRadius, s_location_x, s_location_y, s_rotation;
+
 	    };
         
-        Star::Star(size_t tips, float in_radius, float out_radius)
+        Star::Star(size_t tips, float in_radius, float out_radius, float location_x, float location_y)
         {
             s_tips = tips;
             s_inRadius = in_radius;
             s_outRadius = out_radius;
             s_rotation = F_PI / s_tips;
+            s_location_x = location_x;
+            s_location_y = location_y;
             
             get_Vertexes();
             get_Idx_Triangles();
         }
-        
+
 	    void Star::get_Vertexes()
 	    {
             float useRadius, begin = 0.0f;
@@ -43,17 +47,13 @@
                     if (!(j % 2))
                         useRadius = s_outRadius;
 
-                    vertexes.push_back(sin(begin) * useRadius);
-                    vertexes.push_back(cos(begin) * useRadius);
-                    vertexes.push_back(0.0f);
+                    vertexes.push_back( { (sin(begin) * useRadius) + s_location_x, (cos(begin) * useRadius) + s_location_y, 0.0f });
 
                     begin += s_rotation;
                 }
             }
 
-            vertexes.push_back(0.0f);
-            vertexes.push_back(0.0f);
-            vertexes.push_back(0.0f);
+            vertexes.push_back( { 0.0f + s_location_x, 0.0f + s_location_y, 0.0f} );
 
             size_vertexes = vertexes.size();
 	    }
@@ -82,5 +82,5 @@
 
             size_idx_triangles = idx_triangles.size();
         }
-
+        
 #endif

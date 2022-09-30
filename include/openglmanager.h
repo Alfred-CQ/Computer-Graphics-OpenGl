@@ -13,7 +13,9 @@
 				OpenGLManager(uint windowWidth, uint windowHeight, char* windowTitle);
 
 				void bind_Buffer_Data(uint* VAO, uint* VBO, uint* EBO, Picture* picture);
-				void bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point3d> vertexs);
+				void bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);
+
+				void update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);
 
 			private:
 
@@ -75,7 +77,7 @@
 			glBindVertexArray(*VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-			glBufferData(GL_ARRAY_BUFFER, picture->size_vertexes * sizeof(picture->vertexes), &(picture->vertexes.front()), GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, picture->size_vertexes * 3 * sizeof(picture->vertexes), &(picture->vertexes.front()), GL_DYNAMIC_DRAW);
 
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *EBO);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, picture->size_idx_triangles * sizeof(picture->idx_triangles), &(picture->idx_triangles.front()), GL_STATIC_DRAW);
@@ -85,7 +87,7 @@
 			glEnableVertexAttribArray(0);
 		}
 
-		void  OpenGLManager::bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point3d> vertexs)
+		void  OpenGLManager::bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
 		{
 			glGenVertexArrays(1, VAO);
 			glGenBuffers(1, VBO);
@@ -93,10 +95,17 @@
 			glBindVertexArray(*VAO);
 
 			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
-			glBufferData(GL_ARRAY_BUFFER, vertexs.size() * sizeof(vertexs), &(vertexs.front()), GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, vertexs->size() * 3 * sizeof(vertexs), &(vertexs->front()), GL_STATIC_DRAW);
 
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 			glEnableVertexAttribArray(0);
+		}
+
+		void OpenGLManager::update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
+		{
+			glBindVertexArray(*VAO);
+			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
+			glBufferData(GL_ARRAY_BUFFER, vertexs->size() * 3 * sizeof(vertexs), &(vertexs->front()), GL_DYNAMIC_DRAW);
 		}
 #endif
