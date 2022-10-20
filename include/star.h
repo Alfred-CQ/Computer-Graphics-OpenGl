@@ -12,11 +12,10 @@
                 void get_Vertexes();
                 void get_Idx_Lines();
                 void get_Idx_Triangles();
-                
 
             private:
 
-                size_t s_tips;
+                uint s_tips;
                 float  s_inRadius, s_outRadius, s_location_x, s_location_y, s_rotation;
 
 	    };
@@ -34,11 +33,14 @@
             get_Idx_Triangles();
             
             bind_Buffers();
+            // Texture
+            bind(texture, 2, 2); // [2] texture attribute
+            set_Texture(root_path + "textures\\container.jpg", 0);
         }
 
 	    void Star::get_Vertexes()
 	    {
-            float useRadius, begin = 0.0f;
+            float useRadius, begin = 0.0f, x_value, y_value;
 
             for (int i = 0; i < s_tips; ++i)
             {
@@ -48,14 +50,23 @@
 
                     if (!(j % 2))
                         useRadius = s_outRadius;
+                    
+                    x_value = sin(begin) * useRadius + s_location_x;
+                    y_value = cos(begin) * useRadius + s_location_y;
 
-                    vertexes.push_back( { (sin(begin) * useRadius) + s_location_x, (cos(begin) * useRadius) + s_location_y, 0.0f });
+                    vertexes.push_back( { x_value,  y_value, 0.0f });
+
+                    texture.push_back((x_value * 0.5) + 0.5);
+                    texture.push_back((y_value * 0.5) + 0.5);
 
                     begin += s_rotation;
                 }
             }
 
             vertexes.push_back( { 0.0f + s_location_x, 0.0f + s_location_y, 0.0f} );
+            
+            texture.push_back((0.0f + s_location_x) * 0.5 + 0.5);
+            texture.push_back((0.0f + s_location_y) * 0.5 + 0.5);
 
             size_vertexes = vertexes.size();
 	    }
@@ -67,7 +78,7 @@
         
         void Star::get_Idx_Triangles()
         {
-            size_t vertex_idx = (s_tips * 2) - 1, i, j;
+            uint vertex_idx = (s_tips * 2) - 1, i, j;
             for (i = 1; i <= s_tips * 3; ++i)
             {
                 idx_triangles.push_back(vertex_idx);

@@ -35,19 +35,34 @@
 			get_Idx_Triangles();
 
 			bind_Buffers();
+			// Texture
+			bind(texture, 2, 2); // 2 texture attribute
+
+			set_Texture(root_path + "textures\\pizzaa.jpg", 0);
+			set_Texture(root_path + "textures\\logo.png", 1, GL_RGBA);
 		}
 
 		void Pizza::get_Vertexes()
 		{
-			float begin = 0.0f;
+			float begin = 0.0f, x_value, y_value;;
 
 			for (int i = 0; i < p_tips; ++i)
 			{
-				vertexes.push_back( {sin(begin) * p_radius, cos(begin) * p_radius, 0.0f} );
+				x_value = sin(begin) * p_radius;
+				y_value = cos(begin) * p_radius;
+				
+				vertexes.push_back( {x_value, y_value, 0.0f} );
+				
+				texture.push_back((x_value * 0.5) + 0.5);
+				texture.push_back((y_value * 0.5) + 0.5);
+
 				begin += p_rotation;
 			}
 
 			vertexes.push_back( {0.0f, 0.0f, 0.0f} );
+
+			texture.push_back(0.5);
+			texture.push_back(0.5);
 
 			size_vertexes = vertexes.size();
 		}

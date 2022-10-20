@@ -8,6 +8,10 @@
 		
 		#include "math_entities.h"
 
+		/* External Libraries */
+		#define STB_IMAGE_IMPLEMENTATION
+		#include "../stb_image.h"
+
 		/* Usings */
 		using std::vector;
 
@@ -26,6 +30,10 @@
 		typedef unsigned int uint;
 
 		/* Globals */
+		// Environment
+		std::string root_path = "..\\..\\..\\..\\..\\src\\Tutorial_01\\";
+		
+		// Program
 		int primitive = GL_POINTS;
 		uint current_picture = 0;
 		float star_speed = 1.0f, house_speed = 1.0f, pizza_speed = 1.0f;
@@ -55,6 +63,7 @@
 				glfwSetWindowShouldClose(window, true);
 		}
 		
+		/* Utility Functions */
 		float get_distance(Point<3> A, Point<3> B)
 		{
 			return sqrt((B.p_x - A.p_x)*(B.p_x - A.p_x) + (B.p_y - A.p_y)* (B.p_y - A.p_y));

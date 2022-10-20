@@ -23,6 +23,7 @@
             get_Idx_Triangles();
 
             bind_Buffers();
+            bind(colors, 1);
         }
 
         void House::get_Vertexes()
@@ -37,6 +38,18 @@
               { -0.9f,  0.0f, 0.0f },
               { -0.4f,  0.0f, 0.0f },
               {  0.0f,  0.0f, 0.0f }
+            };
+
+            colors = 
+            {
+                 1.0f, 0.0f, 0.0f,
+                 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f,
+                 0.0f, 1.0f, 0.0f,
+                 1.0f, 0.0f, 0.0f,
+                 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f,
+                 0.0f, 1.0f, 0.0f
             };
             
             size_vertexes = vertexes.size();

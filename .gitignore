@@ -34,3 +34,5 @@
 # Others
 *.txt
 glad.c
+stb_image.h
+textures/

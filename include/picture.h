@@ -9,9 +9,18 @@
 		{
 			public:
 				
-				vector<Point<3>> vertexes;
+				/* Attributes */
+				vector<uint>		attributes;
+
+				vector<Point<3>>	vertexes; // 0
+				vector<float>		colors;   // 1
+				vector<float>		texture;  // 2
+
+				/* Indexs and ID's */
 				vector<uint> idx_lines;
 				vector<uint> idx_triangles;
+				
+				vector<uint> id_textures;
 				
 				size_t size_vertexes, size_idx_lines, size_idx_triangles;
 
@@ -22,6 +31,7 @@
 				~Picture();
 
 				// Setters
+				void set_Texture(std::string file_name, uint index_texture, int type = GL_RGB);
 
 				// Getters
 				virtual void get_Vertexes() = 0;
@@ -35,15 +45,21 @@
 
 				// Binds
 				void bind_Buffers();
+				void bind(vector<float>& buffer, uint index_attribute, uint size = 3);
 
 			private:			
-				
-				float location_x, location_y;
+
+				float	location_x, location_y;
+
 		};
 
 		Picture::Picture() 
 		{
-			
+			for (int i = 0; i < 13; i++)
+			{
+				attributes.push_back(-1);
+				id_textures.push_back(-1);
+			}
 		}
 
 		Picture::~Picture()
@@ -51,6 +67,34 @@
 			glDeleteVertexArrays(1, &(this->VAO));
 			glDeleteBuffers(1, &(this->VBO));
 			glDeleteBuffers(1, &(this->EBO));
+		}
+
+		void Picture::set_Texture(std::string file, uint index_texture, int type)
+		{
+			glGenTextures(1, &(id_textures[index_texture]));
+			glBindTexture(GL_TEXTURE_2D, id_textures[index_texture]);
+			
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			
+			int width, height, nrChannels;
+
+			stbi_set_flip_vertically_on_load(true);
+
+			unsigned char* data = stbi_load(&(file.front()), &width, &height, &nrChannels, 0);
+			
+			if (data)
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, type, GL_UNSIGNED_BYTE, data);
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+			else
+				std::cout << "Failed to load texture" << std::endl;
+
+			stbi_image_free(data);
 		}
 
 		void Picture::draw(int primitive)
@@ -82,6 +126,16 @@
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 			glEnableVertexAttribArray(0);
+		}
+
+		void Picture::bind(vector<float>& buffer, uint index_attribute, uint size)
+		{
+			glGenBuffers(1, &(attributes[index_attribute]));
+			glBindBuffer(GL_ARRAY_BUFFER, attributes[index_attribute]);
+			glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(buffer), &(buffer.front()), GL_STATIC_DRAW);
+
+			glVertexAttribPointer(index_attribute, size, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glEnableVertexAttribArray(index_attribute);
 		}
 
 #endif
