@@ -2,9 +2,9 @@
 	#define _PICTURE_H_
 		
 		#include "global.h"
-		#include "openglmanager.h"
+		#include "shader.h"
 		#include "math_entities.h"
-
+		
 		class Picture 
 		{
 			public:
@@ -26,12 +26,14 @@
 
 				// OpenGL Variables
 				uint VAO, VBO, EBO;
+				Shader* shader;
 				
 				Picture();
 				~Picture();
 
 				// Setters
 				void set_Texture(std::string file_name, uint index_texture, int type = GL_RGB);
+				void set_Shader(Shader* shader);
 
 				// Getters
 				virtual void get_Vertexes() = 0;
@@ -40,6 +42,8 @@
 
 				// Core
 				void draw(int primitive);
+				void send_Data_Shader();
+				void bind_Textures();
 
 			protected:
 
@@ -97,6 +101,11 @@
 			stbi_image_free(data);
 		}
 
+		void Picture::set_Shader(Shader* shader)
+		{
+			this->shader = shader;
+		}
+
 		void Picture::draw(int primitive)
 		{
 			glBindVertexArray(this->VAO);
@@ -104,9 +113,35 @@
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
 			
 			if (primitive == GL_TRIANGLES)
+			{
+				shader->setFloat4("null_matrix", 1.0f);
+				shader->setFloat4("default_colors", 0.0f);
 				glDrawElements(GL_TRIANGLES, size_idx_triangles, GL_UNSIGNED_INT, 0);
+			}
 			else
 				glDrawArrays(primitive, 0, this->size_vertexes - 1);
+		}
+
+		void Picture::send_Data_Shader()
+		{
+			shader->use();
+
+			shader->setFloat4("null_matrix", 0.0f);
+			shader->setFloat4("default_colors", vertex_colors);
+
+			shader->setMat4("transform", glm::mat4(1.0f));
+		}
+
+		void Picture::bind_Textures()
+		{
+			size_t i = 0;
+			while (id_textures[i] != -1)
+			{
+				glActiveTexture(GL_TEXTURE0 + i);
+				glBindTexture(GL_TEXTURE_2D, id_textures[i]);
+				
+				++i;
+			}
 		}
 
 		void Picture::bind_Buffers()

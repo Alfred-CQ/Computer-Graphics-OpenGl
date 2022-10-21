@@ -16,6 +16,7 @@
 				void get_Idx_Triangles();
 				
 				void draw_divisions();
+				void begin_Textures();
 
 			private:
 
@@ -40,6 +41,14 @@
 
 			set_Texture(root_path + "textures\\pizzaa.jpg", 0);
 			set_Texture(root_path + "textures\\logo.png", 1, GL_RGBA);
+
+		}
+
+		void Pizza::begin_Textures()
+		{
+			shader->use();
+			shader->setInt("texture_1", 0);
+			shader->setInt("texture_2", 1);
 		}
 
 		void Pizza::get_Vertexes()

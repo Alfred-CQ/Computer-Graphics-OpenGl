@@ -7,6 +7,7 @@
     #define SHADER_H
 
     #include <glad/glad.h>
+    #include <glm/glm.hpp>
     
     #include <iostream>
     #include <string>
@@ -56,6 +57,11 @@
             void setFloat4(const std::string& name, vector<float>& values) const
             {
                 glUniform4f(glGetUniformLocation(ID, name.c_str()), values[0], values[1], values[2], values[3]);
+            }
+            // ------------------------------------------------------------------------
+            void setMat4(const std::string& name, const glm::mat4& mat) const
+            {
+                glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
             }
 
         private:
