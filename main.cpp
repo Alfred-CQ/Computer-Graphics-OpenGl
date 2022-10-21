@@ -15,7 +15,7 @@ int main()
     
     // Textures and shader
     pizzaShader.use();
-    glUniform1i(glGetUniformLocation(pizzaShader.ID, "texture_1"), 0);
+    pizzaShader.setInt("texture_1", 0);
     pizzaShader.setInt("texture_2", 1);
 
     while (!openGL.close())
@@ -27,8 +27,17 @@ int main()
         
         myShaders[current_picture]->use();
 
+        myShaders[current_picture]->setFloat4("null_matrix", 0.0f);
+        myShaders[current_picture]->setFloat4("default_colors", vertex_colors);
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, myPictures[current_picture]->id_textures[0]);
+
+        if (primitive == GL_TRIANGLES)
+        {
+            myShaders[current_picture]->setFloat4("null_matrix", 1.0f);
+            myShaders[current_picture]->setFloat4("default_colors", 0.0f);
+        }
 
         myPictures[current_picture]->draw(primitive);
 

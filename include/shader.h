@@ -50,7 +50,12 @@
 
             void setFloat4(const std::string& name, float value) const
             {
-                glUniform4f(glGetUniformLocation(ID, name.c_str()), 0.0f, value, 0.0f, 1.0f);
+                glUniform4f(glGetUniformLocation(ID, name.c_str()), value, value, value, value);
+            }
+
+            void setFloat4(const std::string& name, vector<float>& values) const
+            {
+                glUniform4f(glGetUniformLocation(ID, name.c_str()), values[0], values[1], values[2], values[3]);
             }
 
         private:

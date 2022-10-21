@@ -22,4 +22,7 @@
 		#include "house.h"
 		#include "pizza.h"
 
+		/* Default Vertex Colors */
+		vector<float> vertex_colors = { 1.0f, 0.9019f, 0.5058f, 1.0f };
+
 #endif
