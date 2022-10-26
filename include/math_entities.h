@@ -19,6 +19,8 @@
 				Point& operator-(Point& B);
 				Point& operator/ (float k);
 				Point& operator = (const Point& other);
+
+				void print();
 		};
 
 		template<size_t N>		
@@ -109,6 +111,12 @@
 			this->p_z = other.p_z;
 
 			return *this;
+		}
+
+		template <size_t N>
+		void Point<N>::print()
+		{
+			std::cout << p_x << " " << p_y << " " << p_z << '\n';
 		}
 
 		/* Vector */

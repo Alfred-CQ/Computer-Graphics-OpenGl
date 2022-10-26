@@ -39,11 +39,15 @@
 				virtual void get_Vertexes() = 0;
 				virtual void get_Idx_Lines() = 0;
 				virtual void get_Idx_Triangles() = 0;
+				
+				virtual void get_Transformation(int i) = 0;
 
 				// Core
 				void draw(int primitive);
 				void send_Data_Shader();
 				void bind_Textures();
+
+				virtual void bind_Transform(bool& enable, int current_transform) = 0;
 
 			protected:
 
@@ -139,7 +143,6 @@
 			{
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, id_textures[i]);
-				
 				++i;
 			}
 		}

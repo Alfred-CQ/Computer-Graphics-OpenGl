@@ -6,22 +6,27 @@
 		class Pizza: public Picture 
 		{
 			public:
-				
-				uint second_EBO;
 
 				Pizza(size_t tips, float radius);
 
 				void get_Vertexes();
 				void get_Idx_Lines();
 				void get_Idx_Triangles();
+				void get_Transformation(int i);
 				
 				void draw_divisions();
 				void begin_Textures();
+				void bind_Transform(bool& enable, int current_transform);
 
 			private:
+				
+				uint second_EBO;
 
 				size_t p_tips;
 				float  p_radius, p_location_x, p_location_y, p_rotation;
+
+				vector<glm::mat4> history_transformation;
+				glm::mat4 transform = glm::mat4(1.0f);
 
 		};
 		
@@ -41,7 +46,9 @@
 
 			set_Texture(root_path + "textures\\pizzaa.jpg", 0);
 			set_Texture(root_path + "textures\\logo.png", 1, GL_RGBA);
-
+			
+			for (size_t i = 0; i < 10; i++)
+				history_transformation.push_back(glm::mat4(1.0f));
 		}
 
 		void Pizza::begin_Textures()
@@ -102,10 +109,49 @@
 			size_idx_triangles = idx_triangles.size();
 		}
 
+		void Pizza::get_Transformation(int current_transform)
+		{
+			if (current_transform == 0)
+			{
+				transform = glm::mat4(1.0f);
+				transform = glm::translate(transform, glm::vec3(0.2f, 0.35f, 0.175f));
+			}
+			else if (current_transform == 1)
+				transform = glm::rotate(history_transformation[current_transform - 1], glm::radians(63.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			else if (current_transform == 2)
+				transform = glm::translate(history_transformation[current_transform - 1], glm::vec3(0.2f, 0.35f, 0.175f));
+			else if (current_transform == 3)
+				transform = glm::rotate(history_transformation[current_transform - 1], glm::radians(63.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			else if (current_transform == 4)
+				transform = glm::rotate(history_transformation[current_transform - 1], glm::radians(50.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+			else if (current_transform == 5)
+				transform = glm::scale(history_transformation[current_transform - 1], glm::vec3(1.25f, 1.0f, 1.25f));
+			else
+				transform = glm::mat4(1.0f);
+
+			history_transformation[current_transform] = transform;
+			std::cout << "\n*** " << current_transform << " ***\n";
+
+		}
+
 		void Pizza::draw_divisions()
 		{
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->second_EBO);
 			glDrawElements(GL_LINE_LOOP, 24, GL_UNSIGNED_INT, 0);
+		}
+		
+		void Pizza::bind_Transform(bool& enable, int current_transform)
+		{
+			shader->use();
+			if (enable_transformation)
+			{
+				get_Transformation(current_transform);
+				shader->setMat4("transform", transform);
+				enable = false;
+			}
+			else if (enable_transformation == false && current_transform >= 0)
+				shader->setMat4("transform", history_transformation[current_transform]);
+			
 		}
 
 #endif

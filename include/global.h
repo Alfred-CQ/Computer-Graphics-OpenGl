@@ -12,6 +12,11 @@
 		#define STB_IMAGE_IMPLEMENTATION
 		#include "../stb_image.h"
 
+		// GLM
+		#include <glm/glm.hpp>
+		#include <glm/gtc/matrix_transform.hpp>
+		#include <glm/gtc/type_ptr.hpp>
+
 		/* Usings */
 		using std::vector;
 
@@ -38,7 +43,9 @@
 		// Program
 		int primitive = GL_POINTS;
 		uint current_picture = 0;
-		float star_speed = 1.0f, house_speed = 1.0f, pizza_speed = 1.0f;
+
+		int current_transform = -1;
+		bool enable_transformation = false;
 
 		/* Callbacks */
 		void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -50,16 +57,21 @@
 		{
 			if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
 				current_picture = (current_picture + 1) % NUMBER_FIGURES;
+
+			if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+			{
+				current_transform = (current_transform + 1) % 7;
+				enable_transformation = true;
+			}
 			
 			if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
 				primitive = GL_POINTS;
 			
 			if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
 				primitive = GL_LINE_LOOP;
-			
+
 			if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 				primitive = GL_TRIANGLES;
-
 
 			if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 				glfwSetWindowShouldClose(window, true);

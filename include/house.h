@@ -12,6 +12,9 @@
                 void get_Vertexes();
                 void get_Idx_Lines();
                 void get_Idx_Triangles();
+                void get_Transformation(int i);
+
+                void bind_Transform(bool& enable, int current_transform);
 
             private:
 
@@ -72,6 +75,16 @@
             };
             
             size_idx_triangles = idx_triangles.size();
+        }
+
+        void House::get_Transformation(int i)
+        {
+
+        }
+
+        void House::bind_Transform(bool& enable, int current_transform)
+        {
+
         }
 
 #endif

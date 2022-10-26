@@ -26,6 +26,7 @@ int main()
     
         myPictures[current_picture]->send_Data_Shader();
         myPictures[current_picture]->bind_Textures();
+        myPictures[current_picture]->bind_Transform(enable_transformation, current_transform);
 
         myPictures[current_picture]->draw(primitive);
 
