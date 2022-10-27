@@ -13,14 +13,12 @@
 				OpenGLManager(uint windowWidth, uint windowHeight, char* windowTitle);
 				~OpenGLManager();
 
-				void bind_Buffer_Data(uint* VAO, uint* VBO, uint* EBO, Picture* picture);
-				void bind_Simple_Buffer_Data(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);
-
 				void update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);	
 
 				// Utils
-				bool close();
+				void clear_and_Specifications();
 				void listen_buffers_and_Events();
+				bool close();
 				
 			private:
 
@@ -76,6 +74,10 @@
 				std::cout << "Failed to initialize GLAD" << std::endl;
 				exit(-1);
 			}
+
+			// Enable Z-Buffer
+			// -----------------------------
+			glEnable(GL_DEPTH_TEST);
 		}
 
 		void OpenGLManager::update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
@@ -85,15 +87,24 @@
 			glBufferData(GL_ARRAY_BUFFER, vertexs->size() * 3 * sizeof(vertexs), &(vertexs->front()), GL_DYNAMIC_DRAW);
 		}
 
-		bool OpenGLManager::close()
+		void OpenGLManager::clear_and_Specifications()
 		{
-			return glfwWindowShouldClose(this->window);
+			// Clears
+			glClearColor(0.0901f, 0.1176f, 0.1529f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			// Specifications
+			glPointSize(7);
 		}
 
 		void OpenGLManager::listen_buffers_and_Events()
 		{
 			glfwSwapBuffers(this->window);
 			glfwPollEvents();
+		}
+
+		bool OpenGLManager::close()
+		{
+			return glfwWindowShouldClose(this->window);
 		}
 
 #endif

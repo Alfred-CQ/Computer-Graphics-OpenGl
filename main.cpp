@@ -12,26 +12,25 @@ int main()
     Star myStar(5, 0.5f, 0.9f); House myHouse; Pizza myPizza(36, 0.9f);
     vector<Picture*> myPictures = { &myStar, &myHouse, &myPizza};
 
-    myStar.set_Shader(&starShader);
-    myHouse.set_Shader(&houseShader);
-    myPizza.set_Shader(&pizzaShader);
+    myStar.set_Shader(&starShader); myHouse.set_Shader(&houseShader); myPizza.set_Shader(&pizzaShader);
     
     myPizza.begin_Textures();
 
     while (!openGL.close())
     {
-        glClearColor(0.0901f, 0.1176f, 0.1529f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glPointSize(7);
-    
-        myPictures[current_picture]->send_Data_Shader();
-        myPictures[current_picture]->bind_Textures();
+        openGL.clear_and_Specifications();
+
+        myPictures[current_picture]->send_Data_Shaders();
+
+        myPictures[current_picture]->bind_Textures(); 
         myPictures[current_picture]->bind_Transform(enable_transformation, current_transform);
 
-        myPictures[current_picture]->draw(primitive);
-
-        if (current_picture == 2 && primitive == GL_LINE_LOOP)
+        if (current_picture == 1 && primitive == GL_TRIANGLES)
+            myHouse.draw_Houses();
+        else if (current_picture == 2 && primitive == GL_LINE_LOOP)
             myPizza.draw_divisions();
+        
+        myPictures[current_picture]->draw(primitive);
 
         openGL.listen_buffers_and_Events();
     }

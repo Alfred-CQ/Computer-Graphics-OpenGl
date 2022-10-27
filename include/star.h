@@ -13,9 +13,11 @@
                 void get_Vertexes();
                 void get_Idx_Lines();
                 void get_Idx_Triangles();
-                void get_Transformation(int i);
+                void get_Local_Transformation(int current_transform);
 
                 void bind_Transform(bool& enable, int current_transform);
+
+                void send_VShader_Transform();
 
             private:
 
@@ -117,7 +119,7 @@
             size_idx_triangles = idx_triangles.size();
         }
         
-        void Star::get_Transformation(int current_transform)
+        void Star::get_Local_Transformation(int current_transform)
         {
             if (current_transform == 0)
             { 
@@ -152,10 +154,26 @@
         {
             if (enable_transformation)
             {
-                get_Transformation(current_transform);
+                get_Local_Transformation(current_transform);
                 glBufferData(GL_ARRAY_BUFFER, vertexes_transform.size() * 3 * sizeof(vertexes_transform), &(vertexes_transform.front()), GL_DYNAMIC_DRAW);
                 enable_transformation = false;
             }
+        }
+
+        void Star::send_VShader_Transform()
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            glm::mat4 view = glm::mat4(1.0f);
+            glm::mat4 projection = glm::mat4(1.0f);
+
+            model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.5f));
+            projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+
+            shader->setMat4("model", model);
+            shader->setMat4("view", view);
+            shader->setMat4("projection", projection);
         }
 
 #endif

@@ -39,6 +39,8 @@
 			std::string root_path = "..\\..\\..\\..\\..\\src\\Tutorial_01\\";
 			// Default Vertex Colors
 			vector<float> vertex_colors = { 1.0f, 0.9019f, 0.5058f, 1.0f };
+			// Aspect
+			float aspect = 700/600;
 		
 		// Program
 		int primitive = GL_POINTS;

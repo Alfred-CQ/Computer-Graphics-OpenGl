@@ -40,11 +40,16 @@
 				virtual void get_Idx_Lines() = 0;
 				virtual void get_Idx_Triangles() = 0;
 				
-				virtual void get_Transformation(int i) = 0;
+				virtual void get_Local_Transformation(int i) = 0;
 
 				// Core
 				void draw(int primitive);
-				void send_Data_Shader();
+
+				void send_Data_Shaders();
+				void send_FShader();
+
+				virtual void send_VShader_Transform() = 0;
+
 				void bind_Textures();
 
 				virtual void bind_Transform(bool& enable, int current_transform) = 0;
@@ -126,7 +131,13 @@
 				glDrawArrays(primitive, 0, this->size_vertexes - 1);
 		}
 
-		void Picture::send_Data_Shader()
+		void Picture::send_Data_Shaders()
+		{
+			send_FShader();
+			send_VShader_Transform();
+		}
+
+		void Picture::send_FShader()
 		{
 			shader->use();
 
