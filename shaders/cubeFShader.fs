@@ -2,7 +2,7 @@
 
 out vec4 FragColor;
 
-in vec3 ourColor;
+in vec3 vertexColor;
 in vec2 TexCoord;
 
 // texture sampler
@@ -14,5 +14,6 @@ uniform vec4 default_colors;
 
 void main()
 {
-	FragColor = (texture(texture_1, TexCoord) * null_matrix) + default_colors;
+	FragColor = vec4(vertexColor, 1.0);
+	//FragColor = (texture(texture_1, TexCoord) * null_matrix) + default_colors;
 }

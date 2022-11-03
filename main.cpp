@@ -9,7 +9,8 @@ int main()
     Shader cubeShader(VERTEXSHADER, cubeFRAGMENTSHADER);
 
     /* Pictures */
-    Cube myCube(0.3f, {0,0,0}, BLUE);
+    vector<COLOUR> myColors = {BLUE, GREEN, YELLOW, RED, WHITE, ORANGE};
+    Cube myCube(0.3f, {0,0,0}, myColors);
 
     myCube.set_Shader(&cubeShader);
     
