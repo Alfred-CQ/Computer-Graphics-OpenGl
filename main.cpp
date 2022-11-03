@@ -6,31 +6,23 @@ int main()
     OpenGLManager openGL(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE);
     
     /* Shaders */
-    Shader starShader(VERTEXSHADER, starFRAGMENTSHADER), houseShader(VERTEXSHADER, houseFRAGMENTSHADER), pizzaShader(VERTEXSHADER, pizzaFRAGMENTSHADER);
+    Shader cubeShader(VERTEXSHADER, cubeFRAGMENTSHADER);
 
     /* Pictures */
-    Star myStar(5, 0.5f, 0.9f); House myHouse; Pizza myPizza(36, 0.9f);
-    vector<Picture*> myPictures = { &myStar, &myHouse, &myPizza};
+    Cube myCube(0.3f, {0,0,0}, BLUE);
 
-    myStar.set_Shader(&starShader); myHouse.set_Shader(&houseShader); myPizza.set_Shader(&pizzaShader);
+    myCube.set_Shader(&cubeShader);
     
-    myPizza.begin_Textures();
-
     while (!openGL.close())
     {
         openGL.clear_and_Specifications();
 
-        myPictures[current_picture]->send_Data_Shaders();
+        myCube.send_Data_Shaders();
 
-        myPictures[current_picture]->bind_Textures(); 
-        myPictures[current_picture]->bind_Transform(enable_transformation, current_transform);
-
-        if (current_picture == 1 && primitive == GL_TRIANGLES)
-            myHouse.draw_Houses();
-        else if (current_picture == 2 && primitive == GL_LINE_LOOP)
-            myPizza.draw_divisions();
+        myCube.bind_Textures();
+        myCube.bind_Transform(enable_transformation, current_transform);
         
-        myPictures[current_picture]->draw(primitive);
+        myCube.draw(primitive);
 
         openGL.listen_buffers_and_Events();
     }
