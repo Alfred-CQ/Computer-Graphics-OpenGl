@@ -15,9 +15,6 @@
 				// Overloads
 				Point& operator+(float k);
 				Point& operator*(float k);
-				Point& operator+(const Point& k);
-				Point& operator-(Point& B);
-				Point& operator/ (float k);
 				Point& operator = (const Point& other);
 
 				void print();
@@ -74,33 +71,39 @@
 		}
 
 		template <size_t N>
-		Point<N>& Point<N>::operator+(const Point& k)
+		Point<N> operator+(const Point<N>& p, const Point<N>& q)
 		{
-			this->p_x += k.p_x;
-			this->p_y += k.p_y;
-			this->p_z += k.p_z;
+			Point<N> third_point;
+			
+			third_point.p_x = p.p_x + q.p_x;
+			third_point.p_y = p.p_y + q.p_y;
+			third_point.p_z = p.p_z + q.p_z;
 
-			return *this;
+			return third_point;
 		}
 		
 		template <size_t N>
-		Point<N>& Point<N>::operator-(Point& B)
+		Point<N> operator-(const Point<N>& p, const Point<N>& q)
 		{
-			this->p_x -= k.p_x;
-			this->p_y -= k.p_y;
-			this->p_z -= k.p_z;
+			Point<N> third_point;
 
-			return *this;
+			third_point.p_x = p.p_x - q.p_x;
+			third_point.p_y = p.p_y - q.p_y;
+			third_point.p_z = p.p_z - q.p_z;
+
+			return third_point;
 		}
 
 		template <size_t N>
-		Point<N>& Point<N>::operator/(float k)
+		Point<N> operator/(const Point<N>& p, float k)
 		{
-			this->p_x /= k;
-			this->p_y /= k;
-			this->p_z /= k;
+			Point<N> third_point;
 
-			return *this;
+			third_point.p_x = p.p_x/k;
+			third_point.p_y = p.p_y/k;
+			third_point.p_z = p.p_z/k;
+
+			return third_point;
 		}
 
 		template <size_t N>

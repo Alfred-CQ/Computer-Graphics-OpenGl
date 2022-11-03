@@ -128,7 +128,7 @@
 				glDrawElements(GL_TRIANGLES, size_idx_triangles, GL_UNSIGNED_INT, 0);
 			}
 			else
-				glDrawArrays(primitive, 0, this->size_vertexes - 1);
+				glDrawArrays(primitive, 0, this->size_vertexes );
 		}
 
 		void Picture::send_Data_Shaders()
