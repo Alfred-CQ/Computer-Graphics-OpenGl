@@ -64,7 +64,7 @@
 			float first{ -1.0f * s_radius }, second{ s_radius };
 			for (size_t i = 0; i < s_sides; ++i)
 			{
-				s_vertexes.push_back({first, second, s_center.p_z});
+				s_vertexes.push_back({first + s_center.p_x, second + s_center.p_y, s_center.p_z});
 
 				first *= -1.0f;
 

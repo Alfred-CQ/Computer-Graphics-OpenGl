@@ -16,6 +16,6 @@
 		/* Classes */
 		#include "shader.h"
 		
-		#include "../rubik/cube.h"
+		#include "../rubik/rubik.h"
 
 #endif

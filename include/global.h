@@ -22,7 +22,8 @@
 		/* Usings */
 		using std::vector;
 		using std::map;
-		using std::begin, std::end;
+		using std::begin;
+		using std::end;
 
 		/* Defines */
 		#define F_PI 3.14159265358979323846f
@@ -59,7 +60,7 @@
 			float aspect = 700/600;
 		
 		// Program
-		int primitive = GL_POINTS;
+		int primitive = GL_TRIANGLES;
 		uint current_picture = 0;
 
 		int current_transform = -1;

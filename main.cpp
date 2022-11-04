@@ -8,22 +8,21 @@ int main()
     /* Shaders */
     Shader cubeShader(VERTEXSHADER, cubeFRAGMENTSHADER);
 
-    /* Pictures */
-    vector<COLOUR> myColors = {BLUE, GREEN, YELLOW, RED, WHITE, ORANGE};
-    Cube myCube(0.3f, {0,0,0}, myColors);
+    /* Rubik Cube */
 
-    myCube.set_Shader(&cubeShader);
-    
+    Rubik myRubik(0.1f, 0.03f);
+    myRubik.set_Shader(&cubeShader);
+
     while (!openGL.close())
     {
         openGL.clear_and_Specifications();
 
-        myCube.send_Data_Shaders();
+        myRubik.send_Data_Shaders();
 
-        myCube.bind_Textures();
-        myCube.bind_Transform(enable_transformation, current_transform);
-        
-        myCube.draw(primitive);
+        myRubik.bind_Textures();
+        myRubik.bind_Transform(enable_transformation, current_transform);
+
+        myRubik.draw(primitive);
 
         openGL.listen_buffers_and_Events();
     }
