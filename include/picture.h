@@ -40,7 +40,7 @@
 				virtual void get_Idx_Lines() = 0;
 				virtual void get_Idx_Triangles() = 0;
 				
-				virtual void get_Local_Transformation(int i) = 0;
+				virtual bool get_Local_Transformation(int i) = 0;
 
 				// Core
 				void draw(int primitive);

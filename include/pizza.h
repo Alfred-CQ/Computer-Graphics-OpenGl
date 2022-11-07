@@ -12,7 +12,7 @@
 				void get_Vertexes();
 				void get_Idx_Lines();
 				void get_Idx_Triangles();
-				void get_Local_Transformation(int i);
+				bool get_Local_Transformation(int i);
 				
 				void draw_divisions();
 				void begin_Textures();
@@ -111,7 +111,7 @@
 			size_idx_triangles = idx_triangles.size();
 		}
 
-		void Pizza::get_Local_Transformation(int current_transform)
+		bool Pizza::get_Local_Transformation(int current_transform)
 		{
 			if (current_transform == 0)
 			{
@@ -133,6 +133,8 @@
 
 			history_transformation[current_transform] = transform;
 			std::cout << "\n*** " << current_transform << " ***\n";
+
+			return 1;
 
 		}
 

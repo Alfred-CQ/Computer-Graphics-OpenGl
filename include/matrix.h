@@ -8,15 +8,20 @@
 		{
 			public:
 				
-				float matrix[N][M] = { 0 };
+				float matrix[N][M]		= { 0 };
+				
+				float vector_norm, m_speed;
 
 				Matrix();
-				Matrix(float angle, char type);
-				Matrix(float TSx, float TSy, float TSz, char type);
-				Matrix(vector<Point<3>> vertexes);
+				Matrix(float angle, char type, float speed = 0.1);
+				Matrix(Vector<3> TS_vector, char type, float speed = 0.1);
+				Matrix(std::vector<Point<3>> vertexes);
 				
 				void print();
 				void clear();
+			
+			private:
+
 		};
 			
 		template<size_t N, size_t M>
@@ -26,7 +31,7 @@
 		}
 
 		template<size_t N, size_t M>
-		Matrix<N, M>::Matrix(float angle, char type)
+		Matrix<N, M>::Matrix(float angle, char type, float speed)
 		{
 			angle = (angle * F_PI) / 180;
 			matrix[N - 1][N - 1] = 1.0f;
@@ -37,9 +42,6 @@
 
 				matrix[1][1] = cos(angle); matrix[1][2] = -1.f * sin(angle);
 				matrix[2][1] = sin(angle); matrix[2][2] = cos(angle);
-
-				std::cout << "\n X ROTATION MATRIX " << std::endl;
-				print();
 			}
 			else if (type == 'y')
 			{
@@ -47,9 +49,6 @@
 
 				matrix[0][0] = cos(angle);	      matrix[0][2] = sin(angle);
 				matrix[2][0] = -1.f * sin(angle); matrix[2][2] = cos(angle);
-
-				std::cout << "\n Y ROTATION MATRIX " << std::endl;
-				print();
 			}
 			else if (type == 'z')
 			{
@@ -57,41 +56,36 @@
 
 				matrix[0][0] = cos(angle); matrix[0][1] = -1.f * sin(angle);
 				matrix[1][0] = sin(angle); matrix[1][1] = cos(angle);
-
-				std::cout << "\n Z ROTATION MATRIX " << std::endl;
-				print();
 			}
 		}
 		
 		template<size_t N, size_t M>
-		Matrix<N, M>::Matrix(float TSx, float TSy, float TSz, char type)
+		Matrix<N, M>::Matrix(Vector<3> TS_vector, char type, float speed)
 		{
+			m_speed = speed * 1000;
+
 			if (type == 'T')
 			{ 
 				for (int i = 0; i < N; ++i)
+				{
 					matrix[i][i] = 1.0f;
-
-				matrix[0][N - 1] = TSx;
-				matrix[1][N - 1] = TSy;
-				matrix[2][N - 1] = TSz;
-
-				std::cout << "\n TRANSLATION MATRIX " << std::endl;
-				print();
+				}
+					
+				matrix[0][N - 1] = TS_vector.v_apply.p_x;
+				matrix[1][N - 1] = TS_vector.v_apply.p_y;
+				matrix[2][N - 1] = TS_vector.v_apply.p_z;
 			}
 			else if (type == 'S')
 			{
-				matrix[0][0] = TSx;
-				matrix[1][1] = TSy;
-				matrix[2][2] = TSz;
+				matrix[0][0] = TS_vector.v_apply.p_x;
+				matrix[1][1] = TS_vector.v_apply.p_y;
+				matrix[2][2] = TS_vector.v_apply.p_z;
 				matrix[N - 1][N - 1] = 1.0f;
-
-				std::cout << "\n Scale MATRIX " << std::endl;
-				print();
 			}
 		}
 
 		template<size_t N, size_t M>
-		Matrix<N, M>::Matrix(vector<Point<3>> vertexes)
+		Matrix<N, M>::Matrix(std::vector<Point<3>> vertexes)
 		{
 			for (int i = 0; i < vertexes.size(); ++i)
 			{
@@ -101,9 +95,6 @@
 				matrix[3][i] = 1.0f;
 			}
 			matrix[N - 1][M - 1] = 1.0f;
-
-			std::cout << "\n VERTEX MATRIX " << std::endl;
-			print();
 		}
 
 		template<size_t N, size_t M>
@@ -140,7 +131,7 @@
 		}
 
 		template<size_t N, size_t M>
-		void get_Vertexes_Transform(Matrix<N,M> matrix, vector<Point<3>>& vertexes_transform)
+		void get_Vertexes_Transform(Matrix<N,M> matrix, std::vector<Point<3>>& vertexes_transform)
 		{
 			for (int i = 0; i < vertexes_transform.size(); ++i)
 			{

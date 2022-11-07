@@ -2,6 +2,7 @@
 	#define _MATH_ENTITIES_H_
 		
 		#include <iostream>
+		#include <vector>
 		
 		template <size_t N>
 		class Point
@@ -41,7 +42,8 @@
 			Vector& operator = (const Vector& other);
 			
 			// Getters
-			void get_norm();
+			void		get_norm();
+			Vector<N>	norm_Vector();
 		};
 
 		
@@ -182,6 +184,12 @@
 		void Vector<N>::get_norm()
 		{
 			norm = sqrt((v_apply.p_x * v_apply.p_x) + (v_apply.p_y * v_apply.p_y) + (v_apply.p_z * v_apply.p_z));
+		}
+
+		template<size_t N>
+		Vector<N> Vector<N>::norm_Vector()
+		{
+			return Vector<N>(v_apply.p_x, v_apply.p_y, v_apply.p_z)/norm;
 		}
 
 #endif

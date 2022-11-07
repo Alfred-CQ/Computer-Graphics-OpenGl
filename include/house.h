@@ -15,7 +15,7 @@
                 void get_Vertexes();
                 void get_Idx_Lines();
                 void get_Idx_Triangles();
-                void get_Local_Transformation(int i);
+                bool get_Local_Transformation(int i);
                 void get_World_Positions();
 
                 void draw_Houses();
@@ -127,9 +127,9 @@
             size_idx_triangles = idx_triangles.size();
         }
 
-        void House::get_Local_Transformation(int i)
+        bool House::get_Local_Transformation(int i)
         {
-
+            return 1;
         }
 
         void House::get_World_Positions()
