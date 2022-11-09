@@ -3,7 +3,6 @@
 		
 		#include "global.h"
 		#include "shader.h"
-		#include "math_entities.h"
 		
 		class Picture 
 		{
@@ -12,7 +11,7 @@
 				/* Attributes */
 				vector<uint>		attributes;
 
-				vector<Point<3>>	vertexes; // 0
+				vector<POINT3>	vertexes; // 0
 				vector<float>		colors;   // 1
 				vector<float>		texture;  // 2
 
@@ -22,7 +21,7 @@
 				
 				vector<uint> id_textures;
 				
-				size_t size_vertexes, size_idx_lines, size_idx_triangles;
+				GLsizei size_vertexes, size_idx_lines, size_idx_triangles;
 
 				// OpenGL Variables
 				uint VAO, VBO, EBO;
@@ -142,14 +141,14 @@
 			shader->use();
 
 			shader->setFloat4("null_matrix", 0.0f);
-			shader->setFloat4("default_colors", vertex_colors);
+			shader->setFloat4("default_colors", v_colors);
 
 			shader->setMat4("transform", glm::mat4(1.0f));
 		}
 
 		void Picture::bind_Textures()
 		{
-			size_t i = 0;
+			GLenum i = 0;
 			while (id_textures[i] != -1)
 			{
 				glActiveTexture(GL_TEXTURE0 + i);

@@ -13,6 +13,7 @@
     #include <string>
     #include <fstream>
     #include <sstream>
+    #include <vector>
 
     class Shader
     {
@@ -54,7 +55,7 @@
                 glUniform4f(glGetUniformLocation(ID, name.c_str()), value, value, value, value);
             }
 
-            void setFloat4(const std::string& name, vector<float>& values) const
+            void setFloat4(const std::string& name, std::vector<float>& values) const
             {
                 glUniform4f(glGetUniformLocation(ID, name.c_str()), values[0], values[1], values[2], values[3]);
             }

@@ -13,7 +13,7 @@
 				OpenGLManager(uint windowWidth, uint windowHeight, char* windowTitle);
 				~OpenGLManager();
 
-				void update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs);	
+				void update_Buffer(uint* VAO, uint* VBO, std::vector<POINT3>* vertexs);	
 
 				// Utils
 				void clear_and_Specifications();
@@ -75,12 +75,10 @@
 				exit(-1);
 			}
 
-			// Enable Z-Buffer
-			// -----------------------------
 			glEnable(GL_DEPTH_TEST);
 		}
 
-		void OpenGLManager::update_Buffer(uint* VAO, uint* VBO, std::vector<Point<3>>* vertexs)
+		void OpenGLManager::update_Buffer(uint* VAO, uint* VBO, std::vector<POINT3>* vertexs)
 		{
 			glBindVertexArray(*VAO);
 			glBindBuffer(GL_ARRAY_BUFFER, *VBO);
