@@ -7,9 +7,6 @@
         {
             public:
 
-
-                vector<glm::vec3> house_Positions;
-
                 House();
 
                 void get_Vertexes();
@@ -26,7 +23,7 @@
 
             private:
                 
-
+                vector<glm::vec3> house_Positions;
         };
     
         House::House()
@@ -84,7 +81,7 @@
                  0.0f, 1.0f, 0.0f
             };
             
-            size_vertexes = vertexes.size();
+            size_vertexes = GLsizei(vertexes.size());
         }
         
         void House::get_Idx_Lines()
@@ -124,7 +121,7 @@
                   4, 13,  5
             };
             
-            size_idx_triangles = idx_triangles.size();
+            size_idx_triangles = GLsizei(idx_triangles.size());
         }
 
         bool House::get_Local_Transformation(int i)
@@ -134,7 +131,8 @@
 
         void House::get_World_Positions()
         {
-            house_Positions = {
+            house_Positions = 
+            {
                 glm::vec3(0.0f,  0.0f, 0.0f),
                 glm::vec3(2.0f,  5.0f, -15.0f),
                 glm::vec3(-1.5f, -2.2f, -2.5f),
@@ -145,7 +143,7 @@
 
         void House::draw_Houses()
         {
-            for (unsigned int i = 0; i < 5; i++)
+            for (unsigned int i = 0; i < house_Positions.size(); i++)
             {
                 glm::mat4 model = glm::mat4(1.0f);
                 model = glm::translate(model, house_Positions[i]);
@@ -171,7 +169,7 @@
             model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
             view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.5f));
-            projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+            projection = glm::perspective(glm::radians(45.0f), WINDOW_ASPECT, 0.1f, 100.0f);
 
             shader->setMat4("model", model);
             shader->setMat4("view", view);

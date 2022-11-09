@@ -1,5 +1,5 @@
-#include "include/openglmanager.h"
 #include "include/config.h"
+#include "include/openglmanager.h"
 
 int main()
 {

@@ -2,7 +2,6 @@
 	#define _STAR_H
     
         #include "picture.h"
-        #include "matrix.h"	
         #include "transformations.h"
 
 	    class Star: public Picture
@@ -27,7 +26,7 @@
                 
                 Transformation<11>* star_transformation = new Transformation<11> (50.0f, 0.0f, 63.0f,
                                                                                   { 0.2f, 0.35f, 0.175f }, 
-                                                                                  { 1.25f, 1.0f, 1.25f  });
+                                                                                  { 1.25f, 1.0f, 1.25f  }, 1.0f);
                 
 	    };
         
@@ -112,55 +111,26 @@
         
         bool Star::get_Local_Transformation(int current_transform)
         {
-            bool status;
+            bool status = false;
             if (current_transform == 0)
-            {
-                status = star_transformation->make_Translation(current_transform);
-            }
-
-            /*
-            if (current_transform == 0)
-            { 
-                float prev1 = Translation_Matrix->matrix[0][4 - 1];
-                float prev2 = Translation_Matrix->matrix[1][4 - 1];
-                float prev3 = Translation_Matrix->matrix[2][4 - 1];
-
-                float norm = sqrt((0.2f * 0.2f) + (0.35f * 0.35f) + (0.175f * 0.175f)) * beg;
-                std::cout << "NORM: " << Translation_Matrix->matrix[0][4 - 1] << " * " << norm << "\n";
-                Translation_Matrix->matrix[0][4 - 1] *= norm;
-                Translation_Matrix->matrix[1][4 - 1] *= norm;
-                Translation_Matrix->matrix[2][4 - 1] *= norm;
-
-                Matrix<4,4> identy(1.0f, 1.0f, 1.0f, 'S');
-                identy.print();
-                transform = (*Translation_Matrix) * identy;
-                beg++;
-                Translation_Matrix->matrix[0][4 - 1] = prev1;
-                Translation_Matrix->matrix[1][4 - 1] = prev2;
-                Translation_Matrix->matrix[2][4 - 1] = prev3;
-                
-            }     
+                status = star_transformation->make_Translation(current_transform, false);
             else if (current_transform == 1)
-                transform = (history_transformation[current_transform - 1]) * (*Z_Rotation_Matrix);
+                status = star_transformation->make_Rotation(current_transform, 'z');
             else if (current_transform == 2)
-                transform = (history_transformation[current_transform - 1]) * (*Translation_Matrix);
+                status = star_transformation->make_Translation(current_transform);
             else if (current_transform == 3)
-                transform = (history_transformation[current_transform - 1]) * (*Z_Rotation_Matrix);
+                status = star_transformation->make_Rotation(current_transform, 'z');
             else if (current_transform == 4)
-                transform = (history_transformation[current_transform - 1]) * (*X_Rotation_Matrix);
+                status = star_transformation->make_Rotation(current_transform, 'x');
             else if (current_transform == 5)
-                transform = (history_transformation[current_transform - 1]) * (*Scale_Matrix);
+                status = star_transformation->make_Scale(current_transform);
             else if (current_transform == 6)
             {
                 std::cout << "*** RESET ***\n";
-                vertexes_transform = vertexes;
-                return;
+                star_transformation->reset(vertexes);
+                return true;
             }
 
-            std::cout << "\n***" << current_transform << " ***\n";
-           // history_transformation[current_transform] = transform;
-            
-            //transform.print();*/
             return status;
         }
 
@@ -172,7 +142,6 @@
                 glBufferData(GL_ARRAY_BUFFER, star_transformation->vertexes_transform.size() * 3 * sizeof(star_transformation->vertexes_transform), &(star_transformation->vertexes_transform.front()), GL_DYNAMIC_DRAW);
                 if (keep)
                     enable_transformation = false;
-                
             }
         }
 
@@ -185,7 +154,7 @@
             model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
             view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.5f));
-            projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+            projection = glm::perspective(glm::radians(45.0f), WINDOW_ASPECT, 0.1f, 100.0f);
 
             shader->setMat4("model", model);
             shader->setMat4("view", view);
