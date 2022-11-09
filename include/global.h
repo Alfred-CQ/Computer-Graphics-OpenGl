@@ -13,6 +13,7 @@
 
 		// Stl
 		#include <iostream>
+		#include <map>
 		#include <vector>
 
 		// Externals
@@ -34,17 +35,9 @@
 		typedef vector<Point<3>>				VERTEXES;
 		typedef vector<float>					VERTEX_COLOURS;
 		typedef vector<float>					VERTEX_TEXTURES;
-		
-		#define BLUE	COLOUR{{"blue"  ,{0.1882f, 0.6588f, 0.9568f}}}
-		#define RED		COLOUR{{"red"   ,{0.9960f, 0.3529f, 0.3490f}}}
-		#define YELLOW	COLOUR{{"yellow",{1.0000f, 0.9921f, 0.3254f}}}
-		#define ORANGE	COLOUR{{"orange",{1.0000f, 0.4862f, 0.2745f}}}
-		#define GREEN	COLOUR{{"green" ,{0.5372f, 0.9490f, 0.4431f}}}
-		#define WHITE	COLOUR{{"white" ,{0.9411f, 0.9254f, 0.9529f}}}
-		#define BLACK	COLOUR{{"black" ,{0.1215f, 0.1254f, 0.1254f}}}
-		typedef Point<3>     POINT3;
-		typedef Vector<3>	 VECT3;
-		typedef Matrix<4,4>  MATRIX4;		
+		typedef Point<3>						POINT3;
+		typedef Vector<3>						VECT3;
+		typedef Matrix<4, 4>					MATRIX4;
 
 		/* Defines */
 		constexpr auto F_PI = 3.14159265358979323846f;
@@ -53,6 +46,14 @@
 		#define UP    VECT3(0, 0.0001, 0)
 		#define LEFT  VECT3(-0.0001, 0, 0)
 		#define RIGHT VECT3(0.0001, 0, 0)
+
+		#define BLUE	COLOUR{{"blue"  ,{0.1882f, 0.6588f, 0.9568f}}}
+		#define RED		COLOUR{{"red"   ,{0.9960f, 0.3529f, 0.3490f}}}
+		#define YELLOW	COLOUR{{"yellow",{1.0000f, 0.9921f, 0.3254f}}}
+		#define ORANGE	COLOUR{{"orange",{1.0000f, 0.4862f, 0.2745f}}}
+		#define GREEN	COLOUR{{"green" ,{0.5372f, 0.9490f, 0.4431f}}}
+		#define WHITE	COLOUR{{"white" ,{0.9411f, 0.9254f, 0.9529f}}}
+		#define BLACK	COLOUR{{"black" ,{0.1215f, 0.1254f, 0.1254f}}}
 
 		/* Main Program */
 		std::string root_path		= "..\\..\\..\\..\\..\\src\\Tutorial_01\\";

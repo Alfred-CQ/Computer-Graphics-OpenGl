@@ -77,7 +77,7 @@
 		}
 		
 		template<size_t N, size_t M>
-		Matrix<N, M>::Matrix(float TSx, float TSy, float TSz, char type)
+		Matrix<N, M>::Matrix(Vector<3> TS_vector, char type, float speed)
 		{
 			m_speed = speed * 1000;
 			m_type = type;
@@ -102,7 +102,7 @@
 		}
 
 		template<size_t N, size_t M>
-		Matrix<N, M>::Matrix(vector<Point<3>> vertexes)
+		Matrix<N, M>::Matrix(std::vector<Point<3>> vertexes)
 		{
 			for (int i = 0; i < vertexes.size(); ++i)
 			{

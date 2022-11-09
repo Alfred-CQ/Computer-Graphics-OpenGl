@@ -9,7 +9,6 @@ int main()
     Shader cubeShader(VERTEXSHADER, cubeFRAGMENTSHADER);
 
     /* Rubik Cube */
-
     Rubik myRubik(0.1f, 0.03f);
     myRubik.set_Shader(&cubeShader);
 

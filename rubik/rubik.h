@@ -148,7 +148,7 @@
 			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.3f, 0.3f, 0.0f));
 
 			view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.5f));
-			projection = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+			projection = glm::perspective(glm::radians(45.0f), WINDOW_ASPECT, 0.1f, 100.0f);
 
 			shader->setMat4("model", model);
 			shader->setMat4("view", view);
